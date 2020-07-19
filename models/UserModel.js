@@ -38,10 +38,15 @@ const userSchema = new mongoose.Schema({
   scores: {
     type: [
       {
-        levels: { type: String, required: [true, 'level can not be empty.'] },
+        levels: {
+          type: String,
+          lower: true,
+          required: [true, 'level can not be empty.'],
+        },
+        language: { type: String, lower: true },
         isCompleted: {
           type: Boolean,
-          required: [true, 'level status required.'],
+          default: false,
         },
         correctAnswers: Number,
         incorrectAnswers: Number,
