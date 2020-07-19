@@ -8,11 +8,10 @@ exports.updateScores = catchAsync((req, res, next) => {
   })
 })
 exports.userData = catchAsync((req, res, next) => {
-  const id = req.params.id
   res.status(200).json({
     status: 'success',
     data: {
-      user: id,
+      user: req.user,
     },
   })
 })
