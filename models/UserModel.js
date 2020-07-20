@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   userName: {
     type: String,
     trim: true,
+    unique: true,
     required: [true, 'Please tell us your name.'],
   },
   email: {
@@ -36,6 +37,7 @@ const userSchema = new mongoose.Schema({
   },
   // score:[{level: level 1, score: 10, stars: 3},{level: level 1, score: 10, stars: 3},...]
   scores: {
+    index: true,
     type: [
       {
         levels: {
@@ -44,6 +46,8 @@ const userSchema = new mongoose.Schema({
           required: [true, 'level can not be empty.'],
         },
         language: { type: String, lower: true },
+        class: { type: String, lower: true },
+        subject: { type: String, lower: true },
         isCompleted: {
           type: Boolean,
           default: false,
@@ -139,3 +143,33 @@ userSchema.methods.createPasswordResetToken = function () {
 const User = mongoose.model('User', userSchema)
 
 module.exports = User
+
+/*
+ scores: {
+    index: true,
+    type: [
+      {
+        levels: {
+          type: String,
+          lower: true,
+          required: [true, 'level can not be empty.'],
+        },
+        language: { type: String, lower: true },
+        isCompleted: {
+          type: Boolean,
+          default: false,
+        },
+        correctAnswers: Number,
+        incorrectAnswers: Number,
+        unattemptedQestions: Number,
+        score: { type: Number, required: [true, 'score can not be empty.'] },
+        stars: {
+          type: Number,
+          required: [true, 'stars can not be empty. '],
+          min: [0, 'Stars must be equal or above Zero.'],
+          max: [3, 'Stars must be less than and equal to 3.'],
+        },
+      },
+    ],
+  },
+*/
