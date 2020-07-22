@@ -3,6 +3,28 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 
+const scoreSchema = new mongoose.Schema({
+  levels: {
+    type: String,
+    lower: true,
+  },
+  language: { type: String, lower: true },
+  class: { type: String, lower: true },
+  subject: { type: String, lower: true },
+  isCompleted: {
+    type: Boolean,
+    default: false,
+  },
+  correctAnswers: { type: Number, default: 0 },
+  incorrectAnswers: { type: Number, default: 0 },
+  unattemptedQestions: { type: Number, default: 0 },
+  score: { type: Number, default: 0 },
+  stars: {
+    type: Number,
+    default: 0,
+  },
+})
+
 const userSchema = new mongoose.Schema({
   userName: {
     type: String,
@@ -37,37 +59,11 @@ const userSchema = new mongoose.Schema({
   },
   // score:[{level: level 1, score: 10, stars: 3},{level: level 1, score: 10, stars: 3},...]
   scores: {
-    index: true,
-    type: [
-      {
-        levels: {
-          type: String,
-          lower: true,
-          required: [true, 'level can not be empty.'],
-        },
-        language: { type: String, lower: true },
-        class: { type: String, lower: true },
-        subject: { type: String, lower: true },
-        isCompleted: {
-          type: Boolean,
-          default: false,
-        },
-        correctAnswers: Number,
-        incorrectAnswers: Number,
-        unattemptedQestions: Number,
-        score: { type: Number, required: [true, 'score can not be empty.'] },
-        stars: {
-          type: Number,
-          required: [true, 'stars can not be empty. '],
-          min: [0, 'Stars must be equal or above Zero.'],
-          max: [3, 'Stars must be less than and equal to 3.'],
-        },
-      },
-    ],
+    // index: true,
+    type: [scoreSchema],
   },
   points: {
     type: Number,
-    min: [0, 'Points must be greater than Zero.'],
     default: 0,
   },
   premium: {
@@ -144,32 +140,18 @@ const User = mongoose.model('User', userSchema)
 
 module.exports = User
 
-/*
- scores: {
-    index: true,
-    type: [
-      {
-        levels: {
-          type: String,
-          lower: true,
-          required: [true, 'level can not be empty.'],
-        },
-        language: { type: String, lower: true },
-        isCompleted: {
-          type: Boolean,
-          default: false,
-        },
-        correctAnswers: Number,
-        incorrectAnswers: Number,
-        unattemptedQestions: Number,
-        score: { type: Number, required: [true, 'score can not be empty.'] },
-        stars: {
-          type: Number,
-          required: [true, 'stars can not be empty. '],
-          min: [0, 'Stars must be equal or above Zero.'],
-          max: [3, 'Stars must be less than and equal to 3.'],
-        },
-      },
-    ],
-  },
+/*    
+             ********************
+    **********reference from doc**************
+             ********************
+
+var childSchema = new Schema({ name: 'string' });
+
+var parentSchema = new Schema({
+  // Array of subdocuments
+  children: [childSchema],
+  // Single nested subdocuments. Caveat: single nested subdocs only work
+  // in mongoose >= 4.2.0
+  child: childSchema
+});
 */
