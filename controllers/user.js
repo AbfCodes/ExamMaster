@@ -95,7 +95,9 @@ exports.updateUserInfo = catchAsync(async (req, res, next) => {
 exports.userData = catchAsync(async (req, res, next) => {
   const { user } = req
 
-  const userData = await User.findById(user._id).select('-scores')
+  const userData = await User.findById(user._id).select(
+    '-scores -passwordResetExpires -passwordResetToken -__v'
+  )
 
   res.status(200).json({
     status: 'success',
@@ -106,7 +108,9 @@ exports.userData = catchAsync(async (req, res, next) => {
 exports.userScores = catchAsync(async (req, res, next) => {
   const { user } = req
 
-  const userScores = await User.findById(user._id).select('scores')
+  const userScores = await User.findById(user._id).select(
+    'scores -passwordResetExpires -passwordResetToken -__v'
+  )
 
   const temp = findManyScore(userScores.scores, req)
   console.log(scoreIndex)
@@ -124,7 +128,9 @@ exports.userScores = catchAsync(async (req, res, next) => {
 exports.userScore = catchAsync(async (req, res, next) => {
   const { user } = req
 
-  const userScore = await User.findById(user._id).select('scores')
+  const userScore = await User.findById(user._id).select(
+    'scores -passwordResetExpires -passwordResetToken -__v'
+  )
 
   const temp = findScore(userScore.scores, req)
   let totalSc = 0

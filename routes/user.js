@@ -51,5 +51,5 @@ router.delete(
 )
 
 router.post('/forgotPassword', forgotPassword)
-router.post('/resetPassword', resetPassword)
+router.patch('/resetPassword/:token', resetPassword)
 module.exports = router
