@@ -57,6 +57,11 @@ const userSchema = new mongoose.Schema({
       message: 'Passwords are not the same!',
     },
   },
+  role: {
+    type: String,
+    enum: ['system admin', 'system manager', 'content manager', 'user'],
+    default: 'user',
+  },
   // score:[{level: level 1, score: 10, stars: 3},{level: level 1, score: 10, stars: 3},...]
   scores: {
     // index: true,

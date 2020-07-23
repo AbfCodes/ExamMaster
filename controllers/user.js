@@ -53,21 +53,32 @@ exports.insertScores = catchAsync(async (req, res, next) => {
 exports.updateLevelScores = catchAsync(async (req, res, next) => {
   // ROUTE: '/updateLevelScores/:language/:userClass/:subject/:level'
   const { user } = req
+  const el = findScore(user.scores, req)[0]
+  console.log(el)
+  // console.log(req.body.is)
 
   const updatedLevel = await User.findOneAndUpdate(
-    { 'scores._id': el._id },
-    {req.body}
+    { _id: user._id, 'scores._id': el._id },
+    {
+      $set: {
+        'scores.$.isCompleted': req.body.isCompleted,
+        'scores.$.correctAnswers': req.body.correctAnswers,
+        'scores.$.unattemptedQestions': req.body.unattemptedQestions,
+        'scores.$.score': req.body.score,
+        'scores.$.stars': req.body.stars,
+      },
+    },
+    { new: true }
   )
 
   res.status(200).json({
     status: 'success',
-    data: { updatedLevel },
+    data: { updatedLevel: updatedLevel.scores[index] },
   })
 })
 
 exports.updateUserInfo = catchAsync(async (req, res, next) => {
   const { user } = req
-  console.log(req.body)
   const queryObj = { ...req.body }
   const excludeFields = ['scores']
   excludeFields.forEach((el) => delete queryObj[el])

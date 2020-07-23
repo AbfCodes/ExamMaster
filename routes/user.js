@@ -4,7 +4,10 @@ const {
   signup,
   login,
   protect,
+  restrictTo,
   updatePassword,
+  forgotPassword,
+  resetPassword,
 } = require('../controllers/auth')
 const {
   userData,
@@ -40,6 +43,13 @@ router.patch(
 )
 router.patch('/updateUserInfo', protect, updateUserInfo)
 router.delete('/deleteAccount', protect, deleteUser)
-// router.delete('/delete/:id', protect, deleteUser)
+router.delete(
+  '/delete/:id',
+  protect,
+  restrictTo('system admin', 'system manager'),
+  deleteUser
+)
 
+router.post('/forgotPassword', forgotPassword)
+router.post('/resetPassword', resetPassword)
 module.exports = router
