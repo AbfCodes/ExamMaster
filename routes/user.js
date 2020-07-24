@@ -16,6 +16,7 @@ const {
   updateLevelScores,
   userScores,
   userScore,
+  getAllUsers,
   deleteUser,
 } = require('../controllers/user')
 
@@ -41,6 +42,7 @@ router.patch(
   protect,
   updateLevelScores
 )
+router.get('/getAllUsers', protect, getAllUsers)
 router.patch('/updateUserInfo', protect, updateUserInfo)
 router.delete('/deleteAccount', protect, deleteUser)
 router.delete(

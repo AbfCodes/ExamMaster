@@ -84,7 +84,9 @@ exports.updateUserInfo = catchAsync(async (req, res, next) => {
   excludeFields.forEach((el) => delete queryObj[el])
   const updatedUser = await User.findByIdAndUpdate(user._id, req.body, {
     new: true,
-  }).select('-scores')
+  }).select(
+    '-scores -passwordResetExpires -passwordResetToken -__v -passwordChangedAt '
+  )
 
   res.status(200).json({
     status: 'success',
@@ -96,7 +98,7 @@ exports.userData = catchAsync(async (req, res, next) => {
   const { user } = req
 
   const userData = await User.findById(user._id).select(
-    '-scores -passwordResetExpires -passwordResetToken -__v'
+    '-scores -passwordResetExpires -passwordResetToken -__v -passwordChangedAt'
   )
 
   res.status(200).json({
@@ -108,10 +110,8 @@ exports.userData = catchAsync(async (req, res, next) => {
 exports.userScores = catchAsync(async (req, res, next) => {
   const { user } = req
 
-  const userScores = await User.findById(user._id).select(
-    'scores -passwordResetExpires -passwordResetToken -__v'
-  )
-
+  const userScores = await User.findById(user._id).select('scores')
+  //  -passwordResetExpires -passwordResetToken -__v
   const temp = findManyScore(userScores.scores, req)
   console.log(scoreIndex)
   let totalSc = 0
@@ -121,16 +121,31 @@ exports.userScores = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { userScores: temp },
+    data: {
+      userScores: temp,
+    },
     totalScore: totalSc,
   })
 })
+
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  // Finding All Users
+  const allUsers = await User.find({}).select(
+    'role points premium _id userName email'
+  )
+  res.status(200).json({
+    status: 'success',
+    data: {
+      totalUsers: allUsers.length,
+      allUsersList: allUsers,
+    },
+  })
+})
+
 exports.userScore = catchAsync(async (req, res, next) => {
   const { user } = req
 
-  const userScore = await User.findById(user._id).select(
-    'scores -passwordResetExpires -passwordResetToken -__v'
-  )
+  const userScore = await User.findById(user._id).select('scores')
 
   const temp = findScore(userScore.scores, req)
   let totalSc = 0
