@@ -10,7 +10,7 @@ var multerStorage = multer.diskStorage({
   filename: function (req, file, cb) {
     //   user-id-time.jpeg
     const ext = file.mimetype.split('/')[1]
-    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`)
+    cb(null, `RedeemGift-${req.user.id}-${Date.now()}.${ext}`)
   },
 })
 
@@ -63,9 +63,7 @@ exports.getAllRedeemGifts = catchAsync(async (req, res, next) => {
 exports.updateRedeemGift = catchAsync(async (req, res, next) => {
   // receive = {name,photo,information,costPoints}
   const updatedReddemgift = { ...req.body }
-  // console.log(req.file.filename)
   if (req.file && req.file.filename) updatedReddemgift.photo = req.file.filename
-  // console.log(updatedReddemgift)
   // console.log('file name : ', req.file.filename)
   const updatedGift = await RedeemGift.findByIdAndUpdate(
     req.params.id,

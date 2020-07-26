@@ -13,6 +13,7 @@ const {
   userData,
   insertScores,
   updateUserInfo,
+  uploadUserProfilesImage,
   updateLevelScores,
   userScores,
   userScore,
@@ -48,7 +49,12 @@ router.get(
   restrictTo('system admin', 'system manager'),
   getAllUsers
 )
-router.patch('/updateUserInfo', protect, updateUserInfo)
+router.patch(
+  '/updateUserInfo',
+  protect,
+  uploadUserProfilesImage,
+  updateUserInfo
+)
 router.delete('/deleteAccount', protect, deleteUser)
 router.delete(
   '/delete/:id',

@@ -1,6 +1,36 @@
+const multer = require('multer')
 const User = require('../models/UserModel')
 const catchAsync = require('./../utils/catchAsync')
 const AppError = require('./../utils/appError')
+
+// Multer file Uploading config
+var multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/userProfiles')
+  },
+  filename: function (req, file, cb) {
+    //   user-id-time.jpeg
+    const ext = file.mimetype.split('/')[1]
+    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`)
+  },
+})
+
+// Multer images Filtering
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png')
+    cb(null, true)
+  else cb(new AppError('Not an image! Please upload only images.', 400), false)
+}
+
+// Multer upload setting apply
+const upload = multer({
+  storage: multerStorage,
+  limits: {
+    fileSize: 1024 * 1024 * 3,
+  },
+  fileFilter: multerFilter,
+})
+exports.uploadUserProfilesImage = upload.single('userProfilesImage')
 
 let scoreIndex = undefined
 let index = undefined
@@ -82,7 +112,9 @@ exports.updateUserInfo = catchAsync(async (req, res, next) => {
   const queryObj = { ...req.body }
   const excludeFields = ['scores']
   excludeFields.forEach((el) => delete queryObj[el])
-  const updatedUser = await User.findByIdAndUpdate(user._id, req.body, {
+  if (req.file && req.file.filename) queryObj.photo = req.file.filename
+
+  const updatedUser = await User.findByIdAndUpdate(user._id, queryObj, {
     new: true,
   }).select(
     '-scores -passwordResetExpires -passwordResetToken -__v -passwordChangedAt '
