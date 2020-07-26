@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 
 const {
@@ -5,12 +6,11 @@ const {
   awardRedeemGift,
   updateRedeemGift,
   deleteRedeemGift,
+  updateRedeemGiftImage,
+  uploadRedeemGiftImage,
   getAllRedeemGifts,
 } = require('../controllers/redeemGift')
-const { userData } = require('../controllers/user')
 const { protect, restrictTo } = require('../controllers/auth')
-const { route } = require('./user')
-const { create } = require('../models/UserModel')
 
 const router = express.Router()
 
@@ -20,12 +20,19 @@ router.get(
   restrictTo('system admin'),
   getAllRedeemGifts
 )
-router.post('/create', protect, restrictTo('system admin'), createRedeemGift)
+router.post(
+  '/create',
+  protect,
+  restrictTo('system admin'),
+  uploadRedeemGiftImage,
+  createRedeemGift
+)
 router.get('/awardRedeemGift/:name', protect, awardRedeemGift)
 router.patch(
   '/update/:id',
   protect,
   restrictTo('system admin'),
+  updateRedeemGiftImage,
   updateRedeemGift
 )
 router.delete(

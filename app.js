@@ -1,4 +1,5 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const morgan = require('morgan')
 
 const AppError = require('./utils/appError')
@@ -8,7 +9,9 @@ const userRouter = require('./routes/user')
 const redeemGiftRouter = require('./routes/redeemGift')
 
 const app = express()
-app.use(express.json())
+app.use('/uploads', express.static('uploads'))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 console.log(process.env.NODE_ENV)
 
 // Development logging

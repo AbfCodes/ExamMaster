@@ -13,8 +13,8 @@ const redeemGiftSchema = new mongoose.Schema({
   },
   information: {
     type: String,
-    maxlength: 40,
-    required: [true, 'Provide Gift Instructions.'],
+    maxlength: 100,
+    required: [true, 'Provide Gift information.'],
   },
   costPoints: {
     type: Number,
