@@ -42,7 +42,12 @@ router.patch(
   protect,
   updateLevelScores
 )
-router.get('/getAllUsers', protect, getAllUsers)
+router.get(
+  '/getAllUsers',
+  protect,
+  restrictTo('system admin', 'system manager'),
+  getAllUsers
+)
 router.patch('/updateUserInfo', protect, updateUserInfo)
 router.delete('/deleteAccount', protect, deleteUser)
 router.delete(

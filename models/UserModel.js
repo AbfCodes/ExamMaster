@@ -2,6 +2,7 @@ const crypto = require('crypto')
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
+const redeemGiftSchema = require('../models/redeemGift').redeemGiftSchema
 
 const scoreSchema = new mongoose.Schema({
   levels: {
@@ -67,9 +68,17 @@ const userSchema = new mongoose.Schema({
     // index: true,
     type: [scoreSchema],
   },
+  badges: {
+    type: [String],
+    enum: ['Bronze', 'Silver', 'Gold'],
+  },
+  redeemGifts: {
+    type: [redeemGiftSchema],
+  },
   points: {
     type: Number,
-    default: 0,
+    default: 10,
+    min: 0,
   },
   premium: {
     type: Boolean,

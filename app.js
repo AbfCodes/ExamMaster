@@ -5,7 +5,7 @@ const AppError = require('./utils/appError')
 const globalErrorHandler = require('./controllers/errorController')
 // ROUTES
 const userRouter = require('./routes/user')
-// const userRouter = require('./routes/user')
+const redeemGiftRouter = require('./routes/redeemGift')
 
 const app = express()
 app.use(express.json())
@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // 3) ROUTES
 app.use('/api/v1/users', userRouter)
-// app.use('/api/v1/tours', tourRouter)
+app.use('/api/v1/redeemGift', redeemGiftRouter)
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
 })

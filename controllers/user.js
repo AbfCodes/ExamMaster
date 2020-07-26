@@ -54,7 +54,7 @@ exports.updateLevelScores = catchAsync(async (req, res, next) => {
   // ROUTE: '/updateLevelScores/:language/:userClass/:subject/:level'
   const { user } = req
   const el = findScore(user.scores, req)[0]
-  console.log(el)
+  // console.log(el)
   // console.log(req.body.is)
 
   const updatedLevel = await User.findOneAndUpdate(
@@ -113,7 +113,7 @@ exports.userScores = catchAsync(async (req, res, next) => {
   const userScores = await User.findById(user._id).select('scores')
   //  -passwordResetExpires -passwordResetToken -__v
   const temp = findManyScore(userScores.scores, req)
-  console.log(scoreIndex)
+  // console.log(scoreIndex)
   let totalSc = 0
   temp.forEach((obj) => {
     if (obj['score']) totalSc += obj['score']
@@ -133,6 +133,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
   const allUsers = await User.find({}).select(
     'role points premium _id userName email'
   )
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -161,7 +162,7 @@ exports.userScore = catchAsync(async (req, res, next) => {
 })
 
 exports.deleteUser = catchAsync(async (req, res, next) => {
-  console.log(req.user._id)
+  // console.log(req.user._id)
   await User.findByIdAndDelete(req.user._id)
   res.status(204).json({
     status: 'success',
