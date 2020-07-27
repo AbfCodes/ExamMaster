@@ -8,6 +8,7 @@ const {
   updatePassword,
   forgotPassword,
   resetPassword,
+  AuthorizedSignup,
 } = require('../controllers/auth')
 const {
   userData,
@@ -24,6 +25,12 @@ const {
 const router = express.Router()
 
 router.post('/signup', signup)
+router.post(
+  '/AuthorizedSignup',
+  protect,
+  restrictTo('system admin'),
+  AuthorizedSignup
+)
 router.post('/login', login)
 router.patch('/updatePassword', protect, updatePassword)
 

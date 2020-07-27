@@ -26,8 +26,19 @@ const createSendToken = (user, statusCode, res) => {
     },
   })
 }
-
+// for normal users
 exports.signup = catchAsync(async (req, res, next) => {
+  const newUser = await User.create({
+    userName: req.body.userName,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+  })
+  createSendToken(newUser, 201, res)
+})
+
+// Protected and authorized route
+exports.AuthorizedSignup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     userName: req.body.userName,
     email: req.body.email,
@@ -35,7 +46,9 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
     role: req.body.role,
   })
-  createSendToken(newUser, 201, res)
+  res.status(201).json({
+    status: 'success',
+  })
 })
 
 exports.login = catchAsync(async (req, res, next) => {

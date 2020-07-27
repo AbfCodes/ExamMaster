@@ -1,5 +1,4 @@
 const catchAsync = require('../utils/catchAsync')
-const AppError = require('../utils/appError')
 const Notification = require('../models/notification')
 
 exports.allNotifications = catchAsync(async (req, res, next) => {
