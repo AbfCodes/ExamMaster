@@ -1,5 +1,4 @@
 const catchAsync = require('../utils/catchAsync')
-const AppError = require('../utils/appError')
 const LevelInfo = require('../models/levelInfo')
 
 exports.getAllInfo = catchAsync(async (req, res, next) => {
