@@ -51,7 +51,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // 2) Check if user exists && password is correct
   const user = await User.findOne({ $or: [{ email }, { userName }] }).select(
-    '+password -passwordChangedAt -__v'
+    '+password -passwordChangedAt -__v -passwordResetExpires -passwordResetToken'
   )
 
   if (!user || !(await user.correctPassword(password, user.password))) {

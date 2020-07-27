@@ -1,21 +1,14 @@
 const express = require('express')
-
 const {
-  createRedeemGift,
-  awardRedeemGift,
-  updateRedeemGift,
-  deleteRedeemGift,
-  updateRedeemGiftImage,
-  uploadRedeemGiftImage,
-  getAllRedeemGifts,
-} = require('../controllers/redeemGift')
+  allNotifications,
+  createNotification,
+  seenNotification,
+} = require('../controllers/notifications')
 const { protect, restrictTo } = require('../controllers/auth')
 
 const router = express.Router()
-router.get(
-  '/getAllRedeemGifts',
-  protect,
-  restrictTo('system admin'),
-  getAllRedeemGifts
-)
+router.get('/receiveAll', protect, allNotifications)
+// router.get('/seenNotification/:notification_id', protect, seenNotification)
+router.post('/create', protect, restrictTo('system admin'), createNotification)
+
 module.exports = router
