@@ -125,6 +125,24 @@ exports.updateUserInfo = catchAsync(async (req, res, next) => {
     data: { updatedUser },
   })
 })
+exports.updateRole = catchAsync(async (req, res, next) => {
+  const { roleId } = req.params
+
+  const updatedUser = await User.findByIdAndUpdate(
+    roleId,
+    { role: req.body.role },
+    {
+      new: true,
+    }
+  ).select(
+    '-scores -passwordResetExpires -passwordResetToken -__v -passwordChangedAt '
+  )
+
+  res.status(200).json({
+    status: 'success',
+    data: { updatedUser },
+  })
+})
 
 exports.userData = catchAsync(async (req, res, next) => {
   const { user } = req
@@ -196,6 +214,15 @@ exports.userScore = catchAsync(async (req, res, next) => {
 exports.deleteUser = catchAsync(async (req, res, next) => {
   // console.log(req.user._id)
   await User.findByIdAndDelete(req.user._id)
+  res.status(204).json({
+    status: 'success',
+  })
+})
+
+exports.deleteUserbyId = catchAsync(async (req, res, next) => {
+  // console.log(req.user._id)
+  const { userId } = req.params
+  await User.findByIdAndDelete(userId)
   res.status(204).json({
     status: 'success',
   })

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const questionSchema = new mongoose.Schema({
+const QuestionSchema = new mongoose.Schema({
   subject: {
     type: String,
     required: [true, 'Subject is required.'],
@@ -16,7 +16,24 @@ const questionSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Correct Answer is required.'],
   },
-  options: {
-    type: [String],
+  ans1: {
+    type: String,
+    required: [true, 'Correct Answer is required.'],
+  },
+  ans2: {
+    type: String,
+    required: [true, 'Correct Answer is required.'],
+  },
+  ans3: {
+    type: String,
+    required: [true, 'Correct Answer is required.'],
+  },
+  ans4: {
+    type: String,
+    required: [true, 'Correct Answer is required.'],
   },
 })
+
+const Question = mongoose.model('Question', QuestionSchema)
+
+module.exports = Question

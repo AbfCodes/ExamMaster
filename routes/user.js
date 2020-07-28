@@ -14,12 +14,14 @@ const {
   userData,
   insertScores,
   updateUserInfo,
+  updateRole,
   uploadUserProfilesImage,
   updateLevelScores,
   userScores,
   userScore,
   getAllUsers,
   deleteUser,
+  deleteUserbyId,
 } = require('../controllers/user')
 
 const router = express.Router()
@@ -62,12 +64,19 @@ router.patch(
   uploadUserProfilesImage,
   updateUserInfo
 )
+router.patch(
+  '/updateRole/:roleId',
+  protect,
+  uploadUserProfilesImage,
+  restrictTo('system admin'),
+  updateRole
+)
 router.delete('/deleteAccount', protect, deleteUser)
 router.delete(
-  '/delete/:id',
+  '/delete/:userId',
   protect,
   restrictTo('system admin', 'system manager'),
-  deleteUser
+  deleteUserbyId
 )
 
 router.post('/forgotPassword', forgotPassword)
