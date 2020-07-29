@@ -22,7 +22,7 @@ router.patch(
   '/update/:Qid',
   protect,
   restrictTo('system admin', 'content manager'),
-  uploadQuestionImage,
+  updateQuestionImage,
   updateQuestion
 )
 

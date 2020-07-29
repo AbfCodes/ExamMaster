@@ -20,6 +20,7 @@ const {
   userScores,
   userScore,
   getAllUsers,
+  getAllAdmins,
   deleteUser,
   deleteUserbyId,
 } = require('../controllers/user')
@@ -58,6 +59,14 @@ router.get(
   restrictTo('system admin', 'system manager'),
   getAllUsers
 )
+
+// router.get(
+//   '/getAllUsers',
+//   protect,
+//   restrictTo('system admin', 'system manager'),
+//   getAllAdmins
+// )
+
 router.patch(
   '/updateUserInfo',
   protect,
