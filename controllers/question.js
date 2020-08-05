@@ -36,6 +36,7 @@ exports.updateQuestionImage = upload.single('updateQuestionImage')
 
 exports.createQuestion = catchAsync(async (req, res, next) => {
   let obj = {
+    mode: req.body.mode,
     subject: req.body.subject,
     language: req.body.language,
     class: req.body.class,
@@ -60,6 +61,7 @@ exports.updateQuestion = catchAsync(async (req, res, next) => {
   const { Qid } = req.params
   let obj = {}
   if (req.body && req.body.subject) obj.subject = req.body.subject
+  if (req.body && req.body.mode) obj.subject = req.body.mode
   if (req.body && req.body.language) obj.language = req.body.language
   if (req.body && req.body.class) obj.class = req.body.class
   if (req.body && req.body.correctAnswer)
@@ -76,6 +78,15 @@ exports.updateQuestion = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: { updateQues },
+  })
+})
+
+exports.allQuestionsWithMode = catchAsync(async (req, res, next) => {
+  const { mode } = req.params
+  // todo const Questions = await Question.find({ mode })
+  res.status(200).json({
+    status: 'success',
+    data: { allLevelRecords },
   })
 })
 exports.deleteQuestion = catchAsync(async (req, res, next) => {

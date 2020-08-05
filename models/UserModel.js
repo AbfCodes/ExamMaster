@@ -75,9 +75,9 @@ const userSchema = new mongoose.Schema({
     type: [String],
     enum: ['Bronze', 'Silver', 'Gold'],
   },
-  redeemGifts: {
-    type: [redeemGiftSchema],
-  },
+  // redeemGifts: {
+  //   type: [redeemGiftSchema],
+  // },
   points: {
     type: Number,
     default: 10,

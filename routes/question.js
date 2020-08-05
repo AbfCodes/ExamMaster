@@ -4,12 +4,15 @@ const {
   createQuestion,
   updateQuestion,
   deleteQuestion,
+  allQuestionsWithMode,
   uploadQuestionImage,
   updateQuestionImage,
 } = require('../controllers/question')
 const { protect, restrictTo } = require('../controllers/auth')
 
 const router = express.Router()
+
+router.get('/all/:mode', allQuestionsWithMode)
 
 router.post(
   '/Add',
@@ -18,6 +21,7 @@ router.post(
   uploadQuestionImage,
   createQuestion
 )
+
 router.patch(
   '/update/:Qid',
   protect,

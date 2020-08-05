@@ -10,6 +10,7 @@ const {
   resetPassword,
   AuthorizedSignup,
 } = require('../controllers/auth')
+
 const {
   userData,
   insertScores,
@@ -20,7 +21,7 @@ const {
   userScores,
   userScore,
   getAllUsers,
-  getAllAdmins,
+  // getAllAdmins,
   deleteUser,
   deleteUserbyId,
 } = require('../controllers/user')

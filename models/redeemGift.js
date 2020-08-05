@@ -9,7 +9,7 @@ const redeemGiftSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
-    // required: [true, 'Gift Must have a Photo.'],
+    required: [true, 'Gift Must have a Photo.'],
   },
   information: {
     type: String,

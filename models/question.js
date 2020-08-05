@@ -6,6 +6,11 @@ const QuestionSchema = new mongoose.Schema({
     required: [true, 'Subject is required.'],
   },
   language: { type: String, required: [true, 'language is required.'] },
+  mode: {
+    type: String,
+    enum: ['exam', 'practice'],
+    default: 'exam',
+  },
   class: { type: String, required: [true, 'class is required.'] },
   question: {
     type: String,

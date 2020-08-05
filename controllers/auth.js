@@ -39,7 +39,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 // Protected and authorized route
 exports.AuthorizedSignup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create({
+  await User.create({
     userName: req.body.userName,
     email: req.body.email,
     password: req.body.password,
