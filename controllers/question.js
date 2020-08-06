@@ -83,10 +83,10 @@ exports.updateQuestion = catchAsync(async (req, res, next) => {
 
 exports.allQuestionsWithMode = catchAsync(async (req, res, next) => {
   const { mode } = req.params
-  // todo const Questions = await Question.find({ mode })
+  const questions = await Question.find({ mode })
   res.status(200).json({
     status: 'success',
-    data: { allLevelRecords },
+    data: { questions },
   })
 })
 exports.deleteQuestion = catchAsync(async (req, res, next) => {
